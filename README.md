@@ -1,2 +1,2 @@
 # Hometasks_Java
-Дз в TeamScore
+Каждое дз будет располагаться в папках Hometask_n, где n - номер дз
