@@ -1,15 +1,17 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Task1 {
     public static void one_task(){
         double[] array = {30.0, 10000.1, 12.5, 99.99, 0.0, -23.45, -4.5, -129.675};
-        System.out.printf("%9s |%8s |%8s |%8s |\n", "значение", "round", "ceil", "floor");
+        System.out.printf("%9s |%8s |%8s |%8s |%8s |\n", "значение", "round", "ceil", "floor", "rint");
         System.out.println("-----------------------------------------");
         for (double value : array) {
             System.out.printf("%9s |", value);
             System.out.printf("%8s |", Math.round(value));
             System.out.printf("%8s |", Math.ceil(value));
-            System.out.printf("%8s |\n", Math.floor(value));
+            System.out.printf("%8s |", Math.floor(value));
+            System.out.printf("%8s |\n", Math.rint(value));
         }
         System.out.println();
     }
@@ -59,39 +61,41 @@ public class Task1 {
     }
 
     public static void four_task() {
-        Scanner in = new Scanner(System.in);
-        int max_length = 0;
         try {
+            Scanner in = new Scanner(System.in);
+            int max_length;
+            int length;
+            int value;
             System.out.println("Введите длину последовательности");
             int count = in.nextInt();
-            int length = 0;
-            int i = 0;
-            int value = (int) (Math.random() * (1000 + 1000) - 1000);
-            System.out.print(value + " ");
-            while (i < count) {
-                while (value > 0 & i < count) {
-                    value = (int) (Math.random() * (1000 + 1000) - 1000);
+            if(count > 0){
+                value = (int) (Math.random() * (10 + 10) - 10);
+                System.out.print(value + " ");
+                boolean plus = value > 0;
+                if (value == 0)
+                    length = 0;
+                else
+                    length = 1;
+                max_length = length;
+
+                for (int i = 1; i < count; i++){
+                    value = (int) (Math.random() * (10 + 10) - 10);
                     System.out.print(value + " ");
+                    if ((plus & value < 0) | (!plus & value > 0)){
+                        length = 0;
+                        plus = value > 0;
+                    }
+                    if(value == 0)
+                        length = -1;
                     length++;
-                    i++;
-                    if (max_length < length) max_length = length;
+                    if (max_length < length)
+                        max_length = length;
                 }
-                length = 0;
-                while (value < 0 & i < count) {
-                    value = (int) (Math.random() * (1000 + 1000) - 1000);
-                    System.out.print(value + " ");
-                    length++;
-                    i++;
-                    if (max_length < length) max_length = length;
-                }
-                length = 0;
-            }
-            System.out.println();
-            System.out.println("Максимальная длина знакоповторяющейся последовательности: " + max_length);
-        } catch (NumberFormatException e) {
+                System.out.println("\nМаксимальная длина знакоповторяющейся последовательности: " + max_length);
+            }else System.out.println("Введите положительное число");
+        } catch (InputMismatchException e) {
             System.out.println("Некорректный ввод");
         }
-
     }
     public static void main(String[] args) {
         System.out.println("    №1 ОКРУГЛЕНИЕ ЧИСЕЛ");

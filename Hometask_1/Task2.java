@@ -8,11 +8,11 @@ public class Task2 {
         double priceWithoutNds;
         double amountNds;
         int amountNdsTaxReturn;
-        priceWithoutNds = (price / 1.2);
-        amountNds = (price / 6);
+        priceWithoutNds = (price * 100 / 120);
+        amountNds = (price * 20 / 120);
         amountNdsTaxReturn = (int) Math.round(amountNds);
-        System.out.println("Стоимость без НДС: " + priceWithoutNds);
-        System.out.println("Сумма НДС: " + amountNds);
+        System.out.println("Стоимость без НДС в чеке: " + (Math.round(priceWithoutNds * 100) / 100.0));
+        System.out.println("Сумма НДС в чеке: " + (Math.round(amountNds * 100) / 100.0));
         System.out.println("Сумма НДС для налоговой декларации: " + amountNdsTaxReturn);
     }
     public static int wordNumber(int count){
@@ -64,7 +64,5 @@ public class Task2 {
         }catch (NumberFormatException e){
             System.out.println("Некорректрый ввод");
         }
-
     }
-
 }
