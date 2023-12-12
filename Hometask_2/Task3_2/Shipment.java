@@ -41,7 +41,7 @@ public class Shipment {
     public double itemAmount(UUID id) {
         for (Item item : items) {
             if (item.getItemsId() == id) {
-                return Math.round(item.getItemsQuantity() * item.getItemsPrice() * 100) / 100.0;
+                return Math.round(item.getItemsQuantity() * item.getItemsPrice() * 100.0) / 100.0;
             }
         }
         return 0;
@@ -49,12 +49,16 @@ public class Shipment {
     /**
      * Суммарная стоимость товаров, попадающих в список промо-акции.
      */
-    double promoSum(String[] promoArticles) {
+    double promoSum(String[] promoArticles, double discount) {
         double sum = 0;
         for (Item item : items) {
             for (String promoArticle : promoArticles) {
                 if (item.getItemsArticle().equals(promoArticle)) {
-                    sum += Math.round(item.getItemsQuantity() * item.getItemsPrice() * 100) / 100.0;
+                    if(this instanceof Sale){
+                        sum += (Math.ceil(item.getItemsQuantity() * item.getItemsPrice()
+                                * ((100.0 + discount) / 100.0) * 100.0) / 100.0);
+                    }else
+                        sum += Math.ceil(item.getItemsQuantity() * item.getItemsPrice() * 100) / 100.0;
                     break;
                 }
             }
