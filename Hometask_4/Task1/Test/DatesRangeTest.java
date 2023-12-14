@@ -6,7 +6,6 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatesRangeTest {
-
     @Test
     void getDateArray() {
         LocalDate date1 = LocalDate.of(2023, 02, 28);
@@ -33,7 +32,6 @@ class DatesRangeTest {
         for(int i = 0; i < ld3.length; i++){
             assertEquals(ld3[i], result3[i]);
         }
-
 
         date1 = LocalDate.of(1901, 01, 01);
         date2 = LocalDate.of(1901, 12, 31);
