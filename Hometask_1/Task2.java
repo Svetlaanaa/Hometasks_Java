@@ -12,7 +12,7 @@ public class Task2 {
         amountNds = (price * 20 / 120);
         amountNdsTaxReturn = (int) Math.round(amountNds);
         System.out.println("Стоимость без НДС в чеке: " + (Math.round(priceWithoutNds * 100) / 100.0));
-        System.out.println("Сумма НДС в чеке: " + (Math.round(amountNds * 100) / 100.0));
+        System.out.println("Сумма НДС в чеке: " + (Math.round(amountNds * 100.0) / 100.0));
         System.out.println("Сумма НДС для налоговой декларации: " + amountNdsTaxReturn);
     }
     public static int wordNumber(int count){
