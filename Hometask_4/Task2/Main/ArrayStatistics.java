@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 public class ArrayStatistics {
     private int[] array;
@@ -84,5 +85,45 @@ public class ArrayStatistics {
             return Math.pow(geometricMean, 1/array.length);
         }else
             return 0;
+    }
+
+    public int[] deleteElement(int[] originalArray, int index){
+        int[] newArrray = new int[originalArray.length - 1];
+        System.arraycopy(originalArray, 0, newArrray, 0, index);
+        System.arraycopy(originalArray, index + 1, newArrray, index, originalArray.length - index - 1);
+        return newArrray;
+    }
+
+    public int[] getShuffleArray(){
+        if (array.length > 0){
+            int[] newArray = new int[array.length];
+            int[] copyArray;
+            copyArray = Arrays.copyOf(array, array.length);
+            Random random = new Random();
+            int index;
+            for (int i = 0; i < newArray.length; i++){
+                index = random.nextInt(0,copyArray.length);
+                newArray[i] = copyArray[index];
+                copyArray = deleteElement(copyArray, index);
+            }
+            return newArray;
+        }
+        return new int[0];
+    }
+
+    public int[] getSample(int len){
+        if(array.length != 0 & len != 0){
+            int[] newArray = new int[len];
+            int index;
+            Random random = new Random();
+            for(int i = 0; i < newArray.length; i++){
+                index = random.nextInt(0, array.length);
+                newArray[i] = array[index];
+            }
+            return newArray;
+        }
+        else{
+            return new int[0];
+        }
     }
 }
