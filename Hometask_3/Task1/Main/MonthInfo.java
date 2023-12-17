@@ -7,52 +7,47 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MonthInfo {
-    private final Calendar calendar;
+    private final LocalDate localDate;
 
-    public MonthInfo(Date date) {
-        this.calendar = Calendar.getInstance();
-        this.calendar.setTime(date);
+    public MonthInfo(LocalDate localDate) {
+        this.localDate = localDate;
     }
     public MonthInfo(){
-        this.calendar = Calendar.getInstance();
+        this.localDate = LocalDate.now();
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
     public String getMonthTitle(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("LLLL");
-        LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DAY_OF_MONTH));
         return localDate.format(formatter);
     }
     public int getMonthNumber(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M");
-        LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DAY_OF_MONTH));
         return Integer.parseInt(localDate.format(formatter));
     }
     public String getFirstDayOfWeek(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E");
-        LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , 1);
-        return localDate.format(formatter);
+        LocalDate localDate2 = LocalDate.of(localDate.getYear(), localDate.getMonth() , 1);
+        return localDate2.format(formatter);
     }
 
     public String getLastDayOfWeek(){
-        LocalDate currentDay = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DAY_OF_MONTH));
-        int lengthOfMonth = currentDay.lengthOfMonth();
-        LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , lengthOfMonth);
-        return localDate.toString();
+        int lengthOfMonth = localDate.lengthOfMonth();
+        LocalDate localDate2 = LocalDate.of(localDate.getYear(), localDate.getMonth() , lengthOfMonth);
+        return localDate2.toString();
     }
 
     public int getMonthLength(){
-        LocalDate currentDay = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) , calendar.get(Calendar.DAY_OF_MONTH));
-        int lengthOfMonth = currentDay.lengthOfMonth();
+        int lengthOfMonth = localDate.lengthOfMonth();
         return lengthOfMonth;
     }
 
     public String getQuarter(){
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
         if(month <= 3)
             return year + " Q" + 1;
         else if(month > 3 & month <= 6)

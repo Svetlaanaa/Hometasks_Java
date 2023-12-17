@@ -9,9 +9,7 @@ public class DateDifference {
         LocalDateTime utcDateTime = LocalDateTime.parse(dateTimeUTC, DateTimeFormatter.ISO_DATE_TIME);
         ZonedDateTime zonedDateTime1 = ZonedDateTime.of(utcDateTime, ZoneId.of(zone1));
         ZonedDateTime zonedDateTime2 = ZonedDateTime.of(utcDateTime, ZoneId.of(zone2));
-        if (zonedDateTime1.getOffset().equals(zonedDateTime2.getOffset())) {
-            return "0";
-        }else if (ChronoUnit.YEARS.between(zonedDateTime1, zonedDateTime2) != 0) {
+        if (ChronoUnit.YEARS.between(zonedDateTime1, zonedDateTime2) != 0) {
             return "YEAR";
         }else if (ChronoUnit.MONTHS.between(zonedDateTime1, zonedDateTime2) != 0) {
             return "MONTH";
@@ -19,8 +17,9 @@ public class DateDifference {
             return "DAY";
         } else if (ChronoUnit.HOURS.between(zonedDateTime1, zonedDateTime2) != 0) {
             return "HOUR";
-        }else
-            return "";
+        }else {
+            return "0";
+        }
     }
 
 }
