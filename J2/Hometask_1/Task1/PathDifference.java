@@ -13,17 +13,20 @@ public class PathDifference {
     public static boolean isSameFile(Path path1, Path path2) throws IOException {
         return (Files.isSameFile(path1, path2));
     }
+    public static boolean isFile(Path path1, Path path2){
+        return !(Files.isDirectory(path1) || Files.isDirectory(path2));
+    }
     public static boolean isBiggerFile(Path path1, Path path2) throws IOException {
-        return (Files.size(path1) > Files.size(path2));
+        return isFile(path1, path2) && (Files.size(path1) > Files.size(path2));
     }
-    public static boolean isSmallerFile(Path path1, Path path2) throws IOException {
-        return (Files.size(path1) < Files.size(path2));
-    }
+//    public static boolean isSmallerFile(Path path1, Path path2) throws IOException {
+//        return isFile(path1, path2) && (Files.size(path1) < Files.size(path2));
+//    }
     public static boolean isSameSizeFile(Path path1, Path path2) throws IOException {
-        return (Files.size(path1) == Files.size(path2));
+        return isFile(path1, path2) && (Files.size(path1) == Files.size(path2));
     }
     public static boolean isSameDirectory(Path path1, Path path2) throws IOException {
-        return (Files.isDirectory(path1) && Files.isDirectory(path2) && path1.equals(path2));
+        return !isFile(path1, path2) && path1.equals(path2);
     }
     public static boolean isSameAbsoluteNameDepth(Path path1, Path path2) throws IOException {
         if(path1.isAbsolute() && path2.isAbsolute()) {
@@ -64,43 +67,43 @@ public class PathDifference {
 
         if (isNotExists(path1, path2)) {
             differences.add(PathDifferenceStatus.NOT_EXISTS);
-        }
+        }else{
+            if (isSameFile(path1, path2)){
+                differences.add(PathDifferenceStatus.SAME_FILE);
+            }
 
-        if (isSameFile(path1, path2)){
-            differences.add(PathDifferenceStatus.SAME_FILE);
-        }
+            if(isBiggerFile(path1, path2)){
+                differences.add(PathDifferenceStatus.BIGGER_FILE);
+            }
+            if (isBiggerFile(path2, path1)) {
+                differences.add(PathDifferenceStatus.SMALLER_FILE);
+            }
+            if(isSameSizeFile(path1, path2)) {
+                differences.add(PathDifferenceStatus.SAME_SIZE_FILE);
+            }
 
-        if(isBiggerFile(path1, path2)){
-            differences.add(PathDifferenceStatus.BIGGER_FILE);
-        }
-        if (isSmallerFile(path1, path2)) {
-            differences.add(PathDifferenceStatus.SMALLER_FILE);
-        }
-        if(isSameSizeFile(path1, path2)) {
-            differences.add(PathDifferenceStatus.SAME_SIZE_FILE);
-        }
+            if(isSameDirectory(path1, path2)){
+                differences.add(PathDifferenceStatus.SAME_DIRECTORY);
+            }
 
-        if(isSameDirectory(path1, path2)){
-            differences.add(PathDifferenceStatus.SAME_DIRECTORY);
-        }
+            if(isSameAbsoluteNameDepth(path1, path2)){
+                differences.add(PathDifferenceStatus.SAME_ABSOLUTE_NAME_DEPTH);
+            }
 
-        if(isSameAbsoluteNameDepth(path1, path2)){
-            differences.add(PathDifferenceStatus.SAME_ABSOLUTE_NAME_DEPTH);
-        }
+            if(isSamePrefix(path1, path2)){
+                differences.add(PathDifferenceStatus.SAME_PREFIX);
+            }
 
-        if(isSamePrefix(path1, path2)){            //не работает
-            differences.add(PathDifferenceStatus.SAME_PREFIX);
-        }
+            if(isSameRoot(path1, path2)){
+                differences.add(PathDifferenceStatus.SAME_ROOT);
+            }
 
-        if(isSameRoot(path1, path2)){
-            differences.add(PathDifferenceStatus.SAME_ROOT);
-        }
-
-        if (isSubPath(path1, path2)) {      //не работает
-            differences.add(PathDifferenceStatus.SUB_PATH);
-        }
-        if (isSubPath(path2, path1)) {
-            differences.add(PathDifferenceStatus.PARENT_PATH);
+            if (isSubPath(path1, path2)) {
+                differences.add(PathDifferenceStatus.SUB_PATH);
+            }
+            if (isSubPath(path2, path1)) {
+                differences.add(PathDifferenceStatus.PARENT_PATH);
+            }
         }
 
         return differences;
